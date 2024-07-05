@@ -174,8 +174,8 @@ class SmartRingNotifier:
     def send_email(self, image_path):
         refresh_token = self.load_refresh_token()
 
-        client_id = "658025783945-q4859g2o8r4td3a6k6sf6kettme8pc3i.apps.googleusercontent.com"
-        client_secret = "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"
+        client_id = "the client id"
+        client_secret = "client secret"
         token_uri = "https://oauth2.googleapis.com/token"
 
         creds = Credentials(
@@ -231,10 +231,10 @@ class SmartRingNotifier:
 
         def login(driver): # For gmail login
             time.sleep(2)
-            WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,"identifierId"))).send_keys("smart.ring.notifier@gmail.com")
+            WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,"identifierId"))).send_keys("email id")
             ActionChains(driver).send_keys(Keys.RETURN).perform()
             time.sleep(2)
-            WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.NAME, 'Passwd'))).send_keys("Smartringnotifier")
+            WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.NAME, 'Passwd'))).send_keys("email password")
             ActionChains(driver).send_keys(Keys.RETURN).perform()
 
         try:
