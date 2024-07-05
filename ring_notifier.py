@@ -80,20 +80,23 @@ class SmartRingNotifier:
         img2 = cv.cvtColor(img2, cv.COLOR_BGR2GRAY)
         mse = np.mean(cv.subtract(img1, img2) ** 2)
         max_mse = 255 ** 2
-        return mse / max_mse < 0.0001   # Needs to be revaluated according to the actual telephone photos using trial and error
+        return mse / max_mse < 0.0001  
 
-    def transform(self, img):   # According to the camera placement as shared by sir in the telephone photograph
+    def transform(self, img):  
         width, height = 640, 480
 
-        pts1 = np.float32([[63, 292], [454, 210], [47, 475], [525, 381]])
-        pts2 = np.float32([[0, 0], [width, 0], [0, height], [width, height]])
-        matrix = cv.getPerspectiveTransform(pts1, pts2)
-        imgOut = cv.warpPerspective(img, matrix, (width, height))
-        imgOut = cv.rotate(imgOut, cv.ROTATE_180)
-        imgOut = cv.subtract(imgOut, np.array([150.0]))
-        imgOut = cv.addWeighted(imgOut, 3, np.zeros(imgOut.shape, imgOut.dtype), 0, 2)
-
-        return imgOut
+        # Specific for my case as I needed to change the focusing area.
+        
+        # pts1 = np.float32([[63, 292], [454, 210], [47, 475], [525, 381]])
+        # pts2 = np.float32([[0, 0], [width, 0], [0, height], [width, height]])
+        # matrix = cv.getPerspectiveTransform(pts1, pts2)
+        # imgOut = cv.warpPerspective(img, matrix, (width, height))
+        # imgOut = cv.rotate(imgOut, cv.ROTATE_180)
+        # imgOut = cv.subtract(imgOut, np.array([150.0]))
+        # imgOut = cv.addWeighted(imgOut, 3, np.zeros(imgOut.shape, imgOut.dtype), 0, 2)
+        
+        
+        return img
 
 #----------------------------------------------------Image capturing------------------------------------------------------------------------------
    
@@ -231,10 +234,10 @@ class SmartRingNotifier:
 
         def login(driver): # For gmail login
             time.sleep(2)
-            WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,"identifierId"))).send_keys("email id")
+            WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,"identifierId"))).send_keys("email_id")
             ActionChains(driver).send_keys(Keys.RETURN).perform()
             time.sleep(2)
-            WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.NAME, 'Passwd'))).send_keys("email password")
+            WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.NAME, 'Passwd'))).send_keys("email_password")
             ActionChains(driver).send_keys(Keys.RETURN).perform()
 
         try:
@@ -247,8 +250,8 @@ class SmartRingNotifier:
             # Settings open kro and use own oauth creds
             click_by_xpath(driver,"/html/body/div[4]/div[2]/div[3]/a")
             click_by_xpath(driver,"/html/body/div[4]/div[2]/div[3]/div/div/div[4]/input")
-            sendkeys_by_xpath(driver,"/html/body/div[4]/div[2]/div[3]/div/div/div[5]/input","658025783945-q4859g2o8r4td3a6k6sf6kettme8pc3i.apps.googleusercontent.com")
-            sendkeys_by_xpath(driver,"/html/body/div[4]/div[2]/div[3]/div/div/div[5]/div/input","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")
+            sendkeys_by_xpath(driver,"/html/body/div[4]/div[2]/div[3]/div/div/div[5]/input","client_id")
+            sendkeys_by_xpath(driver,"/html/body/div[4]/div[2]/div[3]/div/div/div[5]/div/input","client_secret")
             click_by_xpath(driver,"/html/body/div[5]/div[1]/div[1]/div/div/div/div/button")
 
             # Step 3: Log into Gmail account
